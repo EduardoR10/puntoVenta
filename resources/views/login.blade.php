@@ -9,34 +9,34 @@
 <body>
 <main>
 		<form method="POST" action="{{route('inicia-sesion')}}">
-			@csrf
+			@csrf   
       <section class="vh-100" style="background: linear-gradient(to bottom, #007BFF, #00D2D3);">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div class="card shadow-2-strong" style="border-radius: 1rem;">
+              <div class="card shadow-2-strong" style="border-radius: 1rem; background: #edf6fb;">
                 <div class="card-body p-5">
 
-                  <h2 class="">Inicia sesión</h2>
+                  <h1 class="">Inicia sesión</h1>
                   <br>
 
                   <div class="input-group mb-4">
                     <span class="input-group-text">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-envelope"></i>
                     </span>
-                    <input placeholder="Ingresa tu Email" type="email" class="form-control" id="emailInput" name="email" required />
+                    <input style="font-size: 17px" placeholder="Ingresa tu correo" type="email" class="form-control" id="emailInput" name="email" required />
                     <br>
                   </div>
 
 
                   <div class="input-group mb-4">
                     <span class="input-group-text">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-lock"></i>
                     </span>
-                    <input placeholder="Password" type="password" class="form-control" id="passwordInput" name="password" required>
+                    <input style="font-size: 17px" placeholder="Contraseña" type="password" class="form-control" id="passwordInput" name="password" required>
                   </div>
 
-                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg w-100" type="submit">Login</button>
+                  <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg w-100" type="submit">Ingresar</button>
                   <p class="text-center fs-5 mt-3">¿No tienes cuenta? 
                     <a href="{{route('registro')}}">Regístrate</a>
                   </p>

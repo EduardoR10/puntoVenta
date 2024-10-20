@@ -12,16 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    //
     public function register(Request $request){
-        //Validar los datos
 
         $user = new User();
 
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-
         $user->save();
 
         Auth::login($user);
@@ -43,7 +40,7 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('privada'));
+            return redirect()->intended(route('mensajes'));
 
         }else{
             return redirect('login');
@@ -60,6 +57,10 @@ class LoginController extends Controller
 
         return redirect(route('login'));
 
+    }
+
+    public function mensajes(){
+        
     }
 
 }
