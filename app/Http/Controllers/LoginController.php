@@ -14,17 +14,32 @@ class LoginController extends Controller
 {
     public function register(Request $request){
 
-        $user = new User();
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:6', //al menos 6 caracteres
+                'regex:/[A-Z]/', //Una mayuscula
+                'regex:/[0-9]/', //Números
+            ],
+        ], [
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.regex' => 'La contraseña debe contener al menos una mayúscula y un número.',
+            'email.unique' => 'Este correo ya está registrado.',
+        ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user = new User();
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->password = Hash::make($validatedData['password']);
         $user->save();
 
         Auth::login($user);
-
-        return redirect(route('privada'));
+        return redirect()->route('login');
     }
+
 
 
     public function login(Request $request){
@@ -40,10 +55,12 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended(route('mensajes'));
+            return redirect()->route('mensajes.index');
 
         }else{
-            return redirect('login');
+            return redirect()->route('login')->withErrors([
+                'email' => 'Las credenciales no coinciden.',
+            ]);
         }
         
     }

@@ -10,7 +10,7 @@
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                Página privada @auth de {{ Auth::user()->name }} @endauth
+                 Nombre de usuario: @auth {{ Auth::user()->name }} @endauth
             </a>
             <div class="col-md-3 text-end">
                 <a href="{{ route('logout') }}">
@@ -20,9 +20,8 @@
         </header>
 
         <article class="container">
-            <h2>Tu sección privada</h2>
+            <h3>Tabla de mensajes</h3>
 
-            <!-- Tabla de mensajes -->
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -44,12 +43,14 @@
                 </tbody>
             </table>
 
-            <!-- Formulario para crear un nuevo mensaje -->
             <form method="POST" action="{{ route('mensajes.store') }}">
                 @csrf
                 <div class="mb-3">
-                    <label for="mensaje" class="form-label">Nuevo mensaje</label>
+                    <h3 for="mensaje" class="form-label">Nuevo mensaje</h3>
                     <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+                    @error('mensaje')
+						<div style="color: red;">{{ $message }}</div>
+					@enderror
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>

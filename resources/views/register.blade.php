@@ -25,6 +25,9 @@
 								<i class="fa-solid fa-user"></i>
 							</span>
 							<input style="font-size: 17px" placeholder="Nombre de usuario" type="text" class="form-control" id="userInput" name="name" required autocomplete="disable">
+							@error('name')
+								<div style="color: red;">{{ $message }}</div>
+							@enderror
 						</div>
 
 						<div class="input-group mb-4">
@@ -32,6 +35,10 @@
 								<i class="fa-solid fa-envelope"></i>
 							</span>
 							<input style="font-size: 17px" placeholder="Ingresa tu correo" type="email" class="form-control" id="emailInput" name="email" required />
+							<br>
+							@error('email')
+								<div style="color: red;">{{ $message }}</div>
+							@enderror
 							<br>
 						</div>
 
@@ -41,6 +48,9 @@
 								<i class="fa-solid fa-lock"></i>
 							</span>
 							<input style="font-size: 17px" placeholder="Contraseña" type="password" class="form-control" id="passwordInput" name="password" required>
+							@error('password')
+								<div style="color: red;">{{ $message }}</div>
+							@enderror
 						</div>
 
 						<button type="submit" class="btn btn-lg btn-primary w-100">Registrarse</button>

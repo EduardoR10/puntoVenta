@@ -6,31 +6,28 @@ use Illuminate\Http\Request;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\Auth;
 
-class MensajesController extends Controller
-{
-    //Mostrar los mensajes
-    public function index()
-    {
+class MensajesController extends Controller{
+
+    public function index(){
         $mensajes = Mensaje::with('user')->get();
-        // Pasar los mensajes a la vista
-        //dd($mensajes);
         return view('secret', compact('mensajes'));
     }
 
-    //Guardar un nuevo mensaje encriptado
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'mensaje' => 'required|string'
+            'mensaje' => 'required|string|max:50'
+        ], [
+            'mensaje.max' => 'El mensaje no puede tener más de 50 caracteres.',
         ]);
-
-        $mensajeEncriptado = encrypt($request->mensaje);
-
+    
+        $mensajeEncriptado = encrypt($request->mensaje); //Laravel utiliza el algoritmo AES-256-CBC (Advanced Encryption Standard)
+    
         Mensaje::create([
             'mensaje' => $mensajeEncriptado,
             'id_user' => Auth::id()
         ]);
-
+    
         return redirect()->route('mensajes.index');
     }
+    
 }
