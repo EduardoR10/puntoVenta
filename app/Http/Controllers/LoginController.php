@@ -15,14 +15,14 @@ class LoginController extends Controller
     public function register(Request $request){
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
                 'string',
                 'min:6', //al menos 6 caracteres
-                'regex:/[A-Z]/', //Una mayuscula
-                'regex:/[0-9]/', //Números
+                'regex:/[A-Z]/', //una mayuscula
+                'regex:/[0-9]/', //un numero
             ],
         ], [
             'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
@@ -76,8 +76,6 @@ class LoginController extends Controller
 
     }
 
-    public function mensajes(){
-        
-    }
+   
 
 }

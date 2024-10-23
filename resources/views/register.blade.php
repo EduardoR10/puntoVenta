@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Registro</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 </head>
 <body>
 	<main>
@@ -14,12 +15,14 @@
 				<div class="container py-5 h-100">
 				<div class="row d-flex justify-content-center align-items-center h-100">
 					<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-					<div class="card shadow-2-strong" style="border-radius: 1rem; background: #edf6fb;">
+					<div class="card shadow-2-strong" style="border-radius: 1rem; background: white;">
 						<div class="card-body p-5">
 
-						<h1 class="">Regístrate</h1>
-						<br>
-
+						<div style="color:#007BFF; display:flex; font-size:30px; justify-content: center; align-items: center;">
+							<i class="fi fi-rs-messages"></i>
+							<h1 class="" style="margin-left:10px; margin-bottom:10px;">Regístrate</h1>
+							<br>
+						</div>
 						<div class="input-group mb-4">
 							<span class="input-group-text">
 								<i class="fa-solid fa-user"></i>
@@ -54,9 +57,13 @@
 						</div>
 
 						<button type="submit" class="btn btn-lg btn-primary w-100">Registrarse</button>
-						<p class="fs-5 mt-3">
-							<a href="{{route('login')}}">Ya tengo cuenta</a>
-						</p>
+						<div style="display: flex; justify-content: center; align-items: center; background-color: #white; padding: 5px; border-radius: 5px;">
+							<p class="fs-5 mt-3">
+								<a href="{{route('login')}}" style="color: #007BFF;">Ya tengo cuenta</a>
+							</p>
+						</div>
+
+						
 					</div>
 					</div>
 				</div>

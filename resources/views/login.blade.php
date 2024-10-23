@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Login</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
 </head>
 <body>
 <main>
@@ -14,11 +15,14 @@
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div class="card shadow-2-strong" style="border-radius: 1rem; background: #edf6fb;">
-                <div class="card-body p-5">
-
-                  <h1 class="">Inicia sesión</h1>
-                  <br>
+              <div class="card shadow-2-strong" style="border-radius: 1rem; background: white;">
+                <div class="card-body p-5" >
+                  <div style="color:#007BFF; display:flex; font-size:30px; justify-content: center; align-items: center;">
+                    <i class="fi fi-rs-messages"></i>
+                    <h1 class="" style="margin-left:10px; margin-bottom:10px;">Iniciar sesión</h1>
+                    <br>
+                  </div>
+                  
 
                   <div class="input-group mb-4">
                     <span class="input-group-text">

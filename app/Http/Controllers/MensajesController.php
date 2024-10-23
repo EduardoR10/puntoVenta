@@ -15,12 +15,12 @@ class MensajesController extends Controller{
 
     public function store(Request $request) {
         $request->validate([
-            'mensaje' => 'required|string|max:50'
+            'mensaje' => 'required|string|max:250'
         ], [
-            'mensaje.max' => 'El mensaje no puede tener más de 50 caracteres.',
+            'mensaje.max' => 'El mensaje no puede tener más de 250 caracteres.',
         ]);
     
-        $mensajeEncriptado = encrypt($request->mensaje); //Laravel utiliza el algoritmo AES-256-CBC (Advanced Encryption Standard)
+        $mensajeEncriptado = encrypt($request->mensaje); //usa el algoritmo AES-256-CBC (Advanced Encryption Standard)
     
         Mensaje::create([
             'mensaje' => $mensajeEncriptado,
