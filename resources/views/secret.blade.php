@@ -17,7 +17,7 @@
          
         <div class="container">
             <header style="display: flex; justify-content: space-between; align-items: center; height: 100px; padding: 0 20px;">
-                <div style="display: flex; align-items: center;">
+                <div style="display: flex; align-items: center; justify-content:center; ">
                     <i class="fi fi-rr-portrait" style="margin-right: 10px; color: #0D6EFD; font-size: 25px;"></i>    
                     <a style="color: #0D6EFD; font-size: 25px;">
                         @auth {{ Auth::user()->name }} @endauth

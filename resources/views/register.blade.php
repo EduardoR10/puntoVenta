@@ -39,11 +39,13 @@
 							</span>
 							<input style="font-size: 17px" placeholder="Ingresa tu correo" type="email" class="form-control" id="emailInput" name="email" required />
 							<br>
-							@error('email')
-								<div style="color: red;">{{ $message }}</div>
-							@enderror
+
 							<br>
+							@error('email')
+							<div style="color: red;">{{ $message }}</div>
+							@enderror
 						</div>
+
 
 
 						<div class="input-group mb-4">
