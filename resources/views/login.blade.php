@@ -24,13 +24,13 @@
                   </div>
                   
 
-                  <div class="input-group mb-4">
+                    <div class="input-group mb-4">
                     <span class="input-group-text">
-                        <i class="fa-solid fa-envelope"></i>
+                      <i class="fa-solid fa-user"></i>
                     </span>
-                    <input style="font-size: 17px" placeholder="Ingresa tu correo" type="email" class="form-control" id="emailInput" name="email" required />
+                    <input style="font-size: 17px" placeholder="Ingresa tu usuario" type="text" class="form-control" id="usernameInput" name="user" required />
                     <br>
-                  </div>
+                    </div>
 
 
                   <div class="input-group mb-4">
@@ -39,6 +39,9 @@
                     </span>
                     <input style="font-size: 17px" placeholder="Contraseña" type="password" class="form-control" id="passwordInput" name="password" required>
                   </div>
+                  @error('user')
+                    <div style="color: red;">{{ $message }}</div>
+                  @enderror
 
                   <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg w-100" type="submit">Ingresar</button>
                   <p class="text-center fs-5 mt-3">¿No tienes cuenta? 

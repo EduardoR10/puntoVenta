@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 
-use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +16,8 @@ class LoginController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email',
+            'lastname' => 'required|string|max:50',
+            'user' => 'required|unique:employees,user',
             'password' => [
                 'required',
                 'string',
@@ -24,46 +25,50 @@ class LoginController extends Controller
                 'regex:/[A-Z]/', //una mayuscula
                 'regex:/[0-9]/', //un numero
             ],
+            'phonenumber' => 'required|unique:employees,phonenumber',
+            'birthdate' => 'required|date',
         ], [
             'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
             'password.regex' => 'La contraseña debe contener al menos una mayúscula y un número.',
-            'email.unique' => 'Este correo ya está registrado.',
+            'user.unique' => 'Este usuario ya está registrado.',
         ]);
 
-        $user = new User();
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->password = Hash::make($validatedData['password']);
-        $user->save();
+        $employee = new Employee();
+        $employee->name = $validatedData['name'];
+        $employee->user = $validatedData['user'];
+        $employee->lastname = $validatedData['lastname'];
+        $employee->phonenumber = $validatedData['phonenumber'];
+        $employee->birthdate = $validatedData['birthdate'];
+        $employee->password = Hash::make($validatedData['password']);
+        $employee->save();
 
-        Auth::login($user);
+        Auth::login($employee);
         return redirect()->route('login');
     }
 
 
 
-    public function login(Request $request){
-
+    public function login(Request $request)
+    {
         $credentials = [
-            "email" => $request->email,
+            "user" => $request->user,
             "password" => $request->password,
         ];
-
-        $remember = ($request->has('remember') ? true : false);
-
-        if(Auth::attempt($credentials,$remember)){
-
+    
+        $remember = $request->has('remember');
+        $employee = Employee::where('user', $credentials['user'])->where('is_active', true)->first();
+    
+        if ($employee && Auth::validate($credentials)) {
+            Auth::login($employee, $remember);
             $request->session()->regenerate();
-
-            return redirect()->route('mensajes.index');
-
-        }else{
+            return redirect()->route('menu');
+        } else {
             return redirect()->route('login')->withErrors([
-                'email' => 'Las credenciales no coinciden.',
+                'user' => 'Las credenciales no coinciden o el usuario está inactivo.',
             ]);
         }
-        
     }
+    
 
 
     public function logout(Request $request){

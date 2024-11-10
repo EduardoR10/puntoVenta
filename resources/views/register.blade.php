@@ -27,26 +27,33 @@
 							<span class="input-group-text">
 								<i class="fa-solid fa-user"></i>
 							</span>
-							<input style="font-size: 17px" placeholder="Nombre de usuario" type="text" class="form-control" id="userInput" name="name" required autocomplete="disable">
+							<input style="font-size: 17px" placeholder="Usuario" type="text" class="form-control" id="userInput" name="user" required autocomplete="disable">
 							@error('name')
 								<div style="color: red;">{{ $message }}</div>
 							@enderror
 						</div>
 
 						<div class="input-group mb-4">
-							<span class="input-group-text">
-								<i class="fa-solid fa-envelope"></i>
-							</span>
-							<input style="font-size: 17px" placeholder="Ingresa tu correo" type="email" class="form-control" id="emailInput" name="email" required />
-							<br>
-
-							<br>
-							@error('email')
-							<div style="color: red;">{{ $message }}</div>
-							@enderror
+							<input style="font-size: 17px; width: 50%;" placeholder="Nombre" type="text" class="form-control" id="nameInput" name="name" required autocomplete="disable">
+							<input style="font-size: 17px; width: 50%;" placeholder="Apellido" type="text" class="form-control" id="lastnameInput" name="lastname" required autocomplete="disable">
 						</div>
 
+						<div class="input-group mb-4">
+							<span class="input-group-text">
+								<i class="fa-solid fa-phone"></i>
+							</span>
+							<input style="font-size: 17px" placeholder="Número de teléfono" class="form-control" id="phoneInput" name="phonenumber" required />
+							<br>
 
+							<br>
+						</div>
+
+						<div class="input-group mb-4">
+							<span class="input-group-text">
+								<i class="fa-solid fa-calendar"></i>
+							</span>
+							<input style="font-size: 17px" placeholder="Fecha de nacimiento" type="date" class="form-control" id="birthdateInput" name="birthdate" required>
+						</div>
 
 						<div class="input-group mb-4">
 							<span class="input-group-text">
