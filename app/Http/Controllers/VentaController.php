@@ -10,7 +10,7 @@ class VentaController extends Controller
 {
     public function index()
     {
-        $employeeName = Auth::user()->name ?? 'NombreEmpleado';
+        $employeeName = auth::user()->name ?? '';
         return view('venta.index', compact('employeeName'));
     }
 

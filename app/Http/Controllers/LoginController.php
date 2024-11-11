@@ -54,20 +54,26 @@ class LoginController extends Controller
             "user" => $request->user,
             "password" => $request->password,
         ];
-    
+
         $remember = $request->has('remember');
         $employee = Employee::where('user', $credentials['user'])->where('is_active', true)->first();
-    
-        if ($employee && Auth::validate($credentials)) {
+
+        if ($employee && Hash::check($credentials['password'], $employee->password)) {
             Auth::login($employee, $remember);
             $request->session()->regenerate();
-            return redirect()->route('menu');
+
+            // Pasamos el nombre del empleado a la redirección
+            return redirect()->route('menu', ['employee_name' => $employee->name]);
         } else {
             return redirect()->route('login')->withErrors([
                 'user' => 'Las credenciales no coinciden o el usuario está inactivo.',
             ]);
         }
     }
+
+
+    
+
     
 
 

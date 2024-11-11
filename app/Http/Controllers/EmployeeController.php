@@ -42,7 +42,6 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index')->with('success', 'Employee added successfully!');
     }
 
-    // Mostrar formulario para editar un empleado
     public function edit(Employee $employee)
     {
         return view('employees.edit', compact('employee'));

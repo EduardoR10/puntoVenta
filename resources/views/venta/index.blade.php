@@ -13,12 +13,17 @@
     
     <div class="todo" style="align-items:center; display:flex; justify-content:center; background:white; padding:20px; margin:20px auto; width:80%; border-radius:20px;">
         <div class="container">
- 
-            <div class="text-center mb-4" style="font-size: 1.5rem; font-weight: bold; color: #007BFF;">
-                OKSO Punto de Venta
+            <div class="text-start mt-3" style="padding-bottom:10px">
+                <a href="{{ route('menu') }}" class="btn btn-primary">
+                    Atrás
+                </a>
+                
+                <div class="text-center mb-4" style="font-size: 1.5rem; font-weight: bold; color: #007BFF;">
+                    OKSO Punto de Venta
+                </div>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-3" style="font-size: 1rem; color: #333;">
-                <div>Empleado: <span id="employee-name">{{ $employeeName }}</span></div>
+                <div>Empleado: <span id="employee-name">pilin</span></div>
                 <div><span id="current-time"></span></div>
             </div>
 
@@ -46,13 +51,20 @@
                 <label for="product-code" class="form-label">Código del Producto</label>
                 <input style="width: 250px" type="text" class="form-control" id="product-code" placeholder="Ingresa el código del producto" onkeydown="if(event.key === 'Enter') searchProduct()"/>
             </div>
+            <div class="text-muted">Artículos: 0</div>
 
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                <div class="text-muted">Artículos: 0</div>
-                <div class="text-end" style="font-size: 1.5rem; font-weight: bold;">
-                    Total: $0.00
-                </div>
+            <div class="text-end">
+                    <div style="font-size: 1.4rem; font-weight: bold;">
+                        Subtotal: $0.00
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: bold;">
+                        Iva: 16%
+                    </div>
+                    <div style="font-size: 1.5rem; font-weight: bold;">
+                        Total: $0.00
+                    </div>
             </div>
+
         </div>
     </div>
 
@@ -109,7 +121,7 @@
 
             // Imagen del producto
             const imageCell = document.createElement('td');
-            const img = document.createElement('img');
+            const img = document.createElement('img'); 
             img.src = product.image ? `${window.location.origin}/storage/${product.image}` : 'default-image-url';
             img.alt = 'Imagen del Producto';
             img.style.width = '50px'; // Tamaño de la imagen
@@ -159,8 +171,14 @@
                 amountCell.textContent = `$${amount.toFixed(2)}`;
             });
 
-            const totalElement = document.querySelector('.text-end');
-            totalElement.textContent = `Total: $${total.toFixed(2)}`;
+            const subtotalElement = document.querySelector('.text-end div:first-child');
+            subtotalElement.textContent = `Subtotal: $${total.toFixed(2)}`;
+
+            const ivaElement = document.querySelector('.text-end div:nth-child(2)');
+            ivaElement.textContent = `Iva: $${(total * 0.16).toFixed(2)}`;
+
+            const totalElement = document.querySelector('.text-end div:last-child');
+            totalElement.textContent = `Total: $${(total+(total*0.16)).toFixed(2)}`;
 
             const itemsElement = document.querySelector('.text-muted');
             itemsElement.textContent = `Artículos: ${totalItems}`;
