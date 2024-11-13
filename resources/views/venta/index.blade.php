@@ -8,6 +8,7 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="vh-100" style="background-color: #f8f9fa;">
     
@@ -23,7 +24,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-center mb-3" style="font-size: 1rem; color: #333;">
-                <div>Empleado: <span id="employee-name">pilin</span></div>
+                <div>Empleado: <span id="employee-name">{{ $employeeName }}</span></div>
                 <div><span id="current-time"></span></div>
             </div>
 
@@ -63,6 +64,10 @@
                     <div style="font-size: 1.5rem; font-weight: bold;">
                         Total: $0.00
                     </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <button class="btn btn-danger" onclick="cancelOrder()">Cancelar</button>
+                <button class="btn btn-success" onclick="payOrder()">Pagar</button>
             </div>
 
         </div>
@@ -183,6 +188,98 @@
             const itemsElement = document.querySelector('.text-muted');
             itemsElement.textContent = `Artículos: ${totalItems}`;
         }
+        function cancelOrder() {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+            updateTotal();
+            alert('El pedido ha sido cancelado.');
+        }
+
+        function payOrder() {
+    const rows = document.querySelectorAll('table tbody tr');
+    let products = [];
+
+    // Recolectamos los productos
+    rows.forEach(row => {
+        const productId = row.querySelector('input').getAttribute('data-product-id');
+        const quantity = parseInt(row.querySelector('input').value);
+        const unitPrice = parseFloat(row.querySelector('input').getAttribute('data-price'));
+
+        // Solo agregamos el producto si la cantidad es mayor que 0
+        if (quantity > 0) {
+            products.push({
+                productId: productId,
+                quantity: quantity,
+                unitPrice: unitPrice
+            });
+        }
+    });
+
+    // Depurar los productos recolectados
+    console.log('Productos recolectados:', products);
+
+    // Recolectamos la información del pedido (subtotal, iva, total)
+    const subtotal = parseFloat(document.querySelector('.text-end div:first-child').textContent.replace('Subtotal: $', ''));
+    const iva = parseFloat(document.querySelector('.text-end div:nth-child(2)').textContent.replace('Iva: $', ''));
+    const total = parseFloat(document.querySelector('.text-end div:last-child').textContent.replace('Total: $', ''));
+
+    // Depurar los valores de subtotal, iva y total
+    console.log('Subtotal:', subtotal);
+    console.log('IVA:', iva);
+    console.log('Total:', total);
+
+    // Asegurarnos de que los productos no estén vacíos
+    if (products.length === 0) {
+        alert('No hay productos en el pedido.');
+        return;
+    }
+
+    // Preparar los datos del pedido
+    const orderData = {
+        employeeId: '{{ session('employee_id') }}', // Asegúrate de que esto esté disponible en la sesión
+        subtotal: subtotal,
+        iva: iva,
+        total: total,
+        products: products
+    };
+
+    // Depurar el objeto de datos del pedido antes de enviarlo
+    console.log('Datos del pedido:', orderData);
+
+    // Hacer el request POST al backend
+    fetch('/pagar', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify(orderData)
+})
+.then(response => {
+    if (!response.ok) {
+        // Si el servidor responde con un código de error (ej. 500 o 404), muestra el error
+        return response.text().then(text => { throw new Error(text) });
+    }
+    return response.json(); // Responde en formato JSON si todo está bien
+})
+.then(data => {
+    console.log('Respuesta del servidor:', data); // Ver la respuesta completa
+    if (data.success) {
+        alert('El pago se ha realizado correctamente.');
+        cancelOrder(); // Cancelar el pedido después de pagar
+    } else {
+        alert('Hubo un error al realizar el pago: ' + data.message);
+    }
+})
+.catch(error => {
+    console.error('Error al procesar el pago:', error);
+    alert('Error al procesar el pago. Por favor, intente nuevamente.');
+});
+
+}
+
+
+
     </script>
 </body>
 </html>

@@ -1,10 +1,12 @@
 <?php
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\OrderController;
+use App\Models\Order;
 
 Route::view('/login', "login")->name('login');
 Route::view('/registro', "register")->name('registro');
@@ -31,3 +33,8 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 Route::get('/venta', [VentaController::class, 'index'])->name('venta.index');
 Route::get('/buscar-producto/{code}', [VentaController::class, 'buscarProducto']);
+
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
+Route::post('/pagar', [VentaController::class, 'payOrder']);

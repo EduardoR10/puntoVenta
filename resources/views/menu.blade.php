@@ -37,6 +37,12 @@
                     Ver
                 </a>
             </div>
+            <div class="container text-center p-4" style="height: 200px; width: 300px; box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); border-radius: 20px; margin: 10px;">
+                <h3>Historial ventas</h3>
+                <a href="{{ route('orders.index') }}" class="btn btn-primary mt-3" style="width:80%">
+                    Ver
+                </a>
+            </div>
         </div>
     </div>
 </body>
