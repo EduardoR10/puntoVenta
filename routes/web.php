@@ -31,3 +31,4 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy'])->nam
 
 Route::get('/venta', [VentaController::class, 'index'])->name('venta.index');
 Route::get('/buscar-producto/{code}', [VentaController::class, 'buscarProducto']);
+Route::get('/buscar-producto-nombre/{name}', [VentaController::class, 'buscarProductoNombre']);

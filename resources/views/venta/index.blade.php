@@ -51,6 +51,10 @@
                 <label for="product-code" class="form-label">Código del Producto</label>
                 <input style="width: 250px" type="text" class="form-control" id="product-code" placeholder="Ingresa el código del producto" onkeydown="if(event.key === 'Enter') searchProduct()"/>
             </div>
+            <div class="mb-3">
+                <label for="product-name" class="form-label">Nombre del Producto</label>
+                <input style="width: 250px" type="text" class="form-control" id="product-name" placeholder="Ingresa el nombre del producto" onkeydown="if(event.key === 'Enter') searchProductName()"/>
+            </div>
             <div class="text-muted">Artículos: 0</div>
 
             <div class="text-end">
@@ -101,6 +105,33 @@
             // Limpiar el campo de código y poner el cursor en él
             document.getElementById('product-code').value = '';
             document.getElementById('product-code').focus();
+        }
+
+        function searchProductName() {
+            const productName = document.getElementById('product-name').value;
+
+            if (productName.trim() === '') {
+                alert('Por favor ingrese un nombre de producto.');
+                return;
+            }
+
+            fetch(`/buscar-producto-nombre/${encodeURIComponent(productName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addProductToTable(data.product);
+                        updateTotal();
+                    } else {
+                        alert('Producto no encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al buscar el producto:', error);
+                });
+
+            // Limpiar el campo de código y poner el cursor en él
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-name').focus();
         }
 
         function addProductToTable(product) {
