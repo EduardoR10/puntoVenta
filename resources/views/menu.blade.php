@@ -9,7 +9,7 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
-<body class="vh-100" style="background: linear-gradient(to bottom,  #e60120, #f16676);">
+<body class="vh-100" style="background: linear-gradient(to bottom, #e60120, #f16676); background-size: cover; background-attachment: fixed; margin-bottom: 30px;">
     
     <div class="todo" style="height: 80%; background:white; padding:10px; margin-left:80px; margin-right:80px; margin-top:20px; margin-bottom:0px; border-radius:20px;">
         <div class="text-start mt-3" style="padding-left:85px;padding-top:20px; position: relative;">

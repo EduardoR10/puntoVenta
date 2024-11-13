@@ -9,19 +9,25 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
-<body class="vh-100" style="background: linear-gradient(to bottom, #007BFF, #00D2D3);">
+<body class="vh-100" style="background: linear-gradient(to bottom, #e60120, #f16676); background-size: cover; background-attachment: fixed; margin-bottom: 30px;">
     
     <div class="todo" style="align-items:center; display:flex; justify-content:center;background:white; padding:10px; margin-left:80px; margin-right:80px; margin-top:20px; margin-bottom:0px; border-radius:20px;">
          
         <div style="padding-top:20px;width:90%; padding-bottom:60px">
-            <div class="text-start mt-3" style="padding-bottom:40px">
-                <a href="{{ route('menu') }}" class="btn btn-primary">
-                    Atrás
-                </a>
-            </div>
+        <div class="text-start mt-3" style="padding-bottom:20px; padding-left:10px;padding-top:20px; position: relative; display: flex; flex-direction: column; align-items: center;">
+    
+            <a href="{{ route('menu') }}" class="btn btn-primary" style="background:#fab110; border: 0.5px solid #fab110; align-self: flex-start;">
+                Atrás
+            </a>
+            
+            <h3>Lista de Productos</h3>
+            <img src="{{ asset('img/OKSO.png') }}" style="width:150px; height:75px; margin-bottom: 1em; margin-right: 10px; position: absolute; top: 0; right: 0;">
+        </div>
+
+
 
             <div>
-                <h3>Lista de Productos</h3>
+                
                 <table class="table table-bordered">
                     <thead>
                         <tr>
