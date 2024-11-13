@@ -6,10 +6,17 @@
     <title>Historial de Ventas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="background: linear-gradient(to bottom, #007BFF, #00D2D3);">
-    <div class="container mt-5">
-        <h3>Historial de Ventas</h3>
-        <a href="{{ route('menu') }}" class="btn btn-primary mb-3">Atrás</a>
+<body class="vh-100" style="width:100%;background: linear-gradient(to bottom, #e60120, #f16676); margin-bottom: 30px;">
+    <div class="container mt-5" style="width:90%;height: 90%; background:white; padding:50px; margin: 0px auto 0 auto; border-radius:20px;">
+    <div style="width:100%; padding-bottom:60px">
+        <div class="text-start mt-3" style="padding-bottom:20px; padding-left:10px; position: relative; display: flex; flex-direction: column; align-items: center;">
+    
+            <a href="{{ route('menu') }}" class="btn btn-primary" style="background:#fab110; border: 0.5px solid #fab110; align-self: flex-start;">
+                Atrás
+            </a>
+            <h3>Historial de Ventas</h3>
+        </div>
+
         <table class="table table-bordered bg-white">
             <thead>
                 <tr>

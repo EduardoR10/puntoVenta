@@ -10,50 +10,56 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
-<body class="vh-100" style="background-color: #f8f9fa;">
+<body class="vh-100" style="background: linear-gradient(to bottom, #e60120, #f16676); background-size: cover; background-attachment: fixed; margin-bottom: 30px;">
     
-    <div class="todo" style="align-items:center; display:flex; justify-content:center; background:white; padding:20px; margin:20px auto; width:80%; border-radius:20px;">
+    <div class="todo" style="padding-bottom:50px;padding-top:20px;align-items: center; display: flex; justify-content: center; background: white;margin: 30px auto; width: 90%; border-radius: 15px;">
         <div class="container">
-            <div class="text-start mt-3" style="padding-bottom:10px">
-                <a href="{{ route('menu') }}" class="btn btn-primary">
+            <div class="text-start mt-3" style="padding-bottom: 0px; padding-left: 10px; padding-top: 20px; position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 30px;">
+                <a href="{{ route('menu') }}" class="btn btn-primary" style="background:#fab110; border: 0.5px solid #fab110; align-self: flex-start; padding: 10px 20px; font-size: 0.8rem;">
                     Atrás
                 </a>
-                
-                <div class="text-center mb-4" style="font-size: 1.5rem; font-weight: bold; color: #007BFF;">
-                    OKSO Punto de Venta
-                </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3" style="font-size: 1rem; color: #333;">
-                <div>Empleado: <span id="employee-name">{{ $employeeName }}</span></div>
-                <div><span id="current-time"></span></div>
+                <h3 class="mt-3" style="font-size: 2rem; color: #333; font-weight: bold;">Punto de Venta</h3>
+                <img src="{{ asset('img/OKSO.png') }}" style="width: 150px; height: 75px; margin-bottom: 1em; margin-right: 10px; position: absolute; top: 0; right: 0;">
             </div>
 
-            <div class="d-flex">
-                <!-- Tabla de productos -->
+            <div class="d-flex justify-content-between align-items-center mb-3" style="font-size: 1rem; color: #333;">
+                <div>Empleado: <span id="employee-name" style="font-weight: bold;">{{ $employeeName }}</span></div>
+                <div style="display: flex; align-items: center;">
+                    <span style="font-weight: bold;">{{ date('d-m-Y') }}</span>
+                    <span id="current-time" style="margin-left: 10px;"></span>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="mb-3" style="width: 48%;">
+                    <label for="product-code" class="form-label">Código del Producto</label>
+                    <input style="width: 100%;" type="text" class="form-control" id="product-code" placeholder="Ingresa el código del producto" onkeydown="if(event.key === 'Enter') searchProduct()"/>
+                </div>
+                <div class="mb-3" style="width: 48%;">
+                    <label for="product-name" class="form-label">Nombre del Producto</label>
+                    <input style="width: 100%;" type="text" class="form-control" id="product-name" placeholder="Ingresa el nombre del producto" onkeydown="if(event.key === 'Enter') searchProductName()"/>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column mb-4">
                 <div style="width: 100%;">
-                    <table class="table table-bordered">
-                        <thead style="background-color: #007BFF; color: white;">
+                    <table class="table table-bordered table-striped">
+                        <thead style="background-color: #fab110; color: white;">
                             <tr>
                                 <th>Descripción</th>
-                                <th>Imagen</th> <!-- Nueva columna de imagen -->
+                                <th>Imagen</th>
                                 <th>Cant.</th>
                                 <th>Precio</th>
                                 <th>Importe</th>
                             </tr>
                         </thead>
                         <tbody id="product-table-body">
-                            
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label for="product-code" class="form-label">Código del Producto</label>
-                <input style="width: 250px" type="text" class="form-control" id="product-code" placeholder="Ingresa el código del producto" onkeydown="if(event.key === 'Enter') searchProduct()"/>
-            </div>
             <div class="text-muted">Artículos: 0</div>
-
             <div class="text-end">
                     <div style="font-size: 1.4rem; font-weight: bold;">
                         Subtotal: $0.00
@@ -83,7 +89,6 @@
 
         function searchProduct() {
             const productCode = document.getElementById('product-code').value;
-
             if (productCode.trim() === '') {
                 alert('Por favor ingrese un código de producto.');
                 return;
@@ -103,56 +108,101 @@
                     console.error('Error al buscar el producto:', error);
                 });
 
-            // Limpiar el campo de código y poner el cursor en él
             document.getElementById('product-code').value = '';
             document.getElementById('product-code').focus();
         }
 
-        function addProductToTable(product) {
-            const price = Number(product.unitprice);
-
-            if (isNaN(price)) {
-                alert('El precio del producto no es válido.');
+        function searchProductName() {
+            const productName = document.getElementById('product-name').value;
+            if (productName.trim() === '') {
+                alert('Por favor ingrese un nombre de producto.');
                 return;
             }
 
-            const tbody = document.querySelector('table tbody');
-            const row = document.createElement('tr');
+            fetch(`/buscar-producto-nombre/${encodeURIComponent(productName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addProductToTable(data.product);
+                        updateTotal();
+                    } else {
+                        alert('Producto no encontrado.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al buscar el producto:', error);
+                });
 
-            // Descripción del producto
-            const descriptionCell = document.createElement('td');
-            descriptionCell.textContent = product.name;
-            row.appendChild(descriptionCell);
-
-            // Imagen del producto
-            const imageCell = document.createElement('td');
-            const img = document.createElement('img'); 
-            img.src = product.image ? `${window.location.origin}/storage/${product.image}` : 'default-image-url';
-            img.alt = 'Imagen del Producto';
-            img.style.width = '50px'; // Tamaño de la imagen
-            img.style.height = '50px';
-            imageCell.appendChild(img);
-            row.appendChild(imageCell);
-
-            // Cantidad del producto
-            const quantityCell = document.createElement('td');
-            quantityCell.innerHTML = `<input type="number" class="form-control" value="1" min="0" onchange="updateTotal()" data-price="${price}" data-product-id="${product.id}" style="width: 80px;" />`;
-            row.appendChild(quantityCell);
-
-            // Precio del producto
-            const priceCell = document.createElement('td');
-            priceCell.textContent = `$${price.toFixed(2)}`;
-            row.appendChild(priceCell);
-
-            // Importe del producto
-            const amountCell = document.createElement('td');
-            amountCell.textContent = `$${price.toFixed(2)}`;
-            row.appendChild(amountCell);
-
-            tbody.appendChild(row);
-
-            updateTotal();
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-name').focus();
         }
+
+        function addProductToTable(product) {
+        const price = Number(product.unitprice);
+        if (isNaN(price)) {
+            alert('El precio del producto no es válido.');
+            return;
+        }
+
+        const tbody = document.querySelector('table tbody');
+        let productExists = false;
+
+        // Revisamos si el producto ya está en la tabla
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const existingProductId = row.querySelector('input').getAttribute('data-product-id');
+            if (existingProductId === product.id.toString()) {
+                // Si el producto ya existe, actualizamos la cantidad
+                const quantityInput = row.querySelector('input');
+                const newQuantity = parseInt(quantityInput.value) + 1; // Aumentamos la cantidad
+                quantityInput.value = newQuantity;
+                updateTotal(); // Actualizamos el total
+                productExists = true;
+            }
+        });
+
+        if (productExists) {
+            return; // Si el producto ya existe, no lo agregamos
+        }
+
+        // Si no existe, agregamos el producto a la tabla
+        const row = document.createElement('tr');
+
+        // Descripción del producto
+        const descriptionCell = document.createElement('td');
+        descriptionCell.textContent = product.name;
+        row.appendChild(descriptionCell);
+
+        // Imagen del producto
+        const imageCell = document.createElement('td');
+        const img = document.createElement('img');
+        img.src = product.image ? `${window.location.origin}/storage/${product.image}` : 'default-image-url';
+        img.alt = 'Imagen del Producto';
+        img.style.width = '50px';
+        img.style.height = '50px';
+        imageCell.appendChild(img);
+        row.appendChild(imageCell);
+
+        // Cantidad del producto
+        const quantityCell = document.createElement('td');
+        quantityCell.innerHTML = `<input type="number" class="form-control" value="1" min="0" onchange="updateTotal()" data-price="${price}" data-product-id="${product.id}" style="width: 80px;" />`;
+        row.appendChild(quantityCell);
+
+        // Precio del producto
+        const priceCell = document.createElement('td');
+        priceCell.textContent = `$${price.toFixed(2)}`;
+        row.appendChild(priceCell);
+
+        // Importe del producto
+        const amountCell = document.createElement('td');
+        amountCell.textContent = `$${price.toFixed(2)}`;
+        row.appendChild(amountCell);
+
+        tbody.appendChild(row);
+
+        updateTotal(); // Actualizamos el total
+    }
+
 
         function updateTotal() {
             const rows = document.querySelectorAll('table tbody tr');
@@ -167,7 +217,6 @@
                 total += amount;
                 totalItems += quantity;
 
-                // Si la cantidad es 0, eliminamos la fila
                 if (quantity === 0) {
                     row.remove();
                 }
@@ -183,7 +232,7 @@
             ivaElement.textContent = `Iva: $${(total * 0.16).toFixed(2)}`;
 
             const totalElement = document.querySelector('.text-end div:last-child');
-            totalElement.textContent = `Total: $${(total+(total*0.16)).toFixed(2)}`;
+            totalElement.textContent = `Total: $${(total + (total * 0.16)).toFixed(2)}`;
 
             const itemsElement = document.querySelector('.text-muted');
             itemsElement.textContent = `Artículos: ${totalItems}`;
