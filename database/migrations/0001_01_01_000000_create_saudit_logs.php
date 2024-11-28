@@ -10,9 +10,9 @@ return new class extends Migration
      
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('orderid')->constrained('orders');
+            $table->foreignId('orderid');
             $table->text('changed_by'); 
-            $table->enum('action_type', ['INSERT', 'UPDATE']);
+            $table->enum('action_type', ['INSERT', 'UPDATE', 'DELETE']);
             $table->timestamp('changed_at')->useCurrent();
             $table->text('old_values')->nullable(); 
             $table->text('new_values')->nullable(); 
