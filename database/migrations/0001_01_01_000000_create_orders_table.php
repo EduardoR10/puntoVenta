@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('idemployee')->constrained('employees');
+            $table->foreignId('idustomer')->constrained('customers');
             $table->date('orderdate');
             $table->decimal('subtotal', 8, 2);
             $table->decimal('iva', 8, 2);
